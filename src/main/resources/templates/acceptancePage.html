@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <title>Создание договора</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Создание договора</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+
+
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
+        </form>
+
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <form th:action="@{/acceptance}" method="post" th:object="${acceptance}">
+                <div class="form-group">
+                    <label for="endingDate">Дата завершения</label>
+                    <input type="date" id="endingDate" th:field="*{endingDate}" class="form-control"
+                           placeholder="Введите дату завершения">
+                </div>
+                <div class="form-group">
+                    <label for="categoryPaymentSum">Сумма выплат по категориям</label>
+                    <input type="text" id="categoryPaymentSum" th:field="*{categoryPaymentSum}" class="form-control"
+                           placeholder="Введите сумму выплат по вашей категории">
+                </div>
+                <div class="form-group">
+                    <label for="insuranceTypePayment">Категория выплат по страховым случаям</label>
+                    <input type="text" id="insuranceTypePayment" th:field="*{insuranceTypePayment}" class="form-control"
+                           placeholder="Категория выплат по страховым случаям">
+                </div>
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

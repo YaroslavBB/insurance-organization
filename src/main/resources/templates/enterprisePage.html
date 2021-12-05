@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <title>Подробнее о контракте</title>
+</head>
+<body class="content-center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Итоговые данные договора</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+
+
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
+        </form>
+
+    </div>
+</nav>
+<br>
+<div class="container">
+    <table class="table table-bordered table-info col-12">
+        <thead>
+        <tr>
+            <th scope="col">ID организации</th>
+            <th scope="col">Имя органиизации</th>
+            <th scope="col">Краткое имя организации</th>
+            <th scope="col">Адрес организации</th>
+            <th scope="col">Банковские реквизиты</th>
+            <th scope="col">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/organization/delete'}"
+                   class="text-danger">Удалить организацию</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${organizatoin.getId()}"></th>
+            <th scope="row" th:text="${organizatoin.getFullOrganizationName()}"></th>
+            <th scope="row" th:text="${organizatoin.getShortOrganizationName()}"></th>
+            <th scope="row" th:text="${organizatoin.getAddress()}"></th>
+            <th scope="row" th:text="${organizatoin.getBankInspection()}"></th>
+            <th scope="row">
+                <a th:href="'/organization/' + ${organizatoin.id + '/edit'}"
+                   class="text-warning">Изменить оганизацию</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <table class="table table-bordered table-info col-11">
+        <thead>
+        <tr>
+            <th scope="col">ID договора</th>
+            <th scope="col">Дата заключения</th>
+            <th scope="col">Дата окончания</th>
+            <th scope="col">Категория выплат</th>
+            <th scope="col">Выплаты</th>
+            <th scope="col">
+                <a th:href="'/acceptance/'+ ${acceptance.getId()} + '/delete'"
+                   class="text-danger">Удалить договор</a>
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${acceptance.getId()}"></th>
+            <th scope="row" th:text="${acceptance.getCreationDate()}"></th>
+            <th scope="row" th:text="${acceptance.getEndingDate()}"></th>
+            <th scope="row" th:text="${acceptance.getCategoryPaymentSum()}"></th>
+            <th scope="row" th:text="${acceptance.getInsuranceTypePayment()}"></th>
+            <th scope="row">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/edit'}"
+                   class="text-warning">Изменить договор</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <table class="table table-bordered table-info col-6">
+        <thead>
+        <tr>
+            <th scope="col">ID агента</th>
+            <th scope="col">Ф.И.О</th>
+            <th scope="col">Паспортные данные</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" th:text="${acceptance.getUser().getId()}"></th>
+            <th scope="row" th:text="${acceptance.getUser().fullName}"></th>
+            <th scope="row" th:text="${acceptance.getUser().getPassportData()}"></th>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <table class="table table-bordered table-info col-12">
+        <thead>
+        <tr>
+            <th scope="col">ID работника</th>
+            <th scope="col">Ф.И.О</th>
+            <th scope="col">Категория риска</th>
+            <th scope="col">Возраст</th>
+            <th scope="col">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/addEmployee'}"
+                   class="text-primary">Добавить сотрудников</a>
+            </th>
+            <th scope="col">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/employees/delete-all'}"
+                   class="text-danger">Удалить всех сотрудников</a>
+            </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <th scope="row" th:text="${employee.getId()}"></th>
+            <th scope="row" th:text="${employee.getFullName()}"></th>
+            <th scope="row" th:text="${employee.getCategoryRisk()}"></th>
+            <th scope="row" th:text="${employee.getAge()}"></th>
+            <th>
+                <a th:href="'/employee/' +${employee.getId() + '/edit'}" class="text-warning">Изменить сотрудника</a>
+            </th>
+            <th>
+                <a th:href="'/employee/' +${employee.getId() + '/delete'}" class="text-danger">Удалить сотрудника</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <a href="/" class="btn btn-primary m-3">Ко всем договорам</a>
+
+</div>
+</body>
+</html>

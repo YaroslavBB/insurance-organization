@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <title>Все договоры агента</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Договоры агента</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
+        </form>
+
+    </div>
+</nav>
+<div class="container p-3">
+    <table class="table table-bordered col-10">
+        <thead>
+        <tr>
+            <th scope="col">Номер договора</th>
+            <th scope="col">Дата заключения</th>
+            <th scope="col">Дата окончания</th>
+            <th scope="col">Выбрать действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="acceptance : ${acceptances}">
+            <td scope="row" th:text="${acceptance.getId()}"></td>
+            <td scope="row" th:text="${acceptance.getCreationDate()}"></td>
+            <td scope="row" th:text="${acceptance.getEndingDate()}"></td>
+            <td th:if="${!acceptance.isCompleted()}">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/employee/organization'}" class="text-warning">Добавить оганизацию</a>
+            </td>
+            <td th:if="${acceptance.isCompleted()}">
+                <a th:href="'/acceptance/' + ${acceptance.id + '/employee/organization/enterprise'}" class="text-success">Отобразить
+                    договор</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <a href="/acceptance" class="btn btn-primary ">Добавить договор</a>
+</div>
+</body>
+</html>

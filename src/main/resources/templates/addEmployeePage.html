@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <title>Добавление сотрудников</title>
+</head>
+
+<body>
+
+<table class="table table-striped">
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Добавление сотрудников</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+
+
+            <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}"
+                  method="post">
+                <button class="btn btn-outline-success my-2 my-sm-0">Выйти</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row py-2">
+            <div class="col-12">
+                <form th:action="'/acceptance/' + ${acceptance.id} + '/addEmployee'" method="post"
+                      th:object="${employee}">
+                    <div class="form-group">
+                        <label for="fullName">ФИО Сотрудника</label>
+                        <input type="text" id="fullName" th:field="*{fullName}" class="form-control"
+                               placeholder="Введите ФИО сотрудника">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Возраст сотрудника</label>
+                        <input type="text" id="age" th:field="*{age}" class="form-control"
+                               placeholder="Введите возраст сотрудника">
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryRisk">Категория риска</label>
+                        <input type="text" id="categoryRisk" th:field="*{categoryRisk}" class="form-control"
+                               placeholder="Категория риска">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить сотрудника</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <a th:href="'/acceptance/' + ${acceptance.id + '/employee/organization/enterprise'}"
+               class="btn btn-primary">
+                Перейти к сведениям</a>
+        </div>
+    </div>
+</table>
+</body>
+
+</html>
